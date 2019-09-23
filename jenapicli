@@ -1,0 +1,21 @@
+#!/bin/bash
+
+conf_path=$HOME/.config/jenapiclirc
+
+if [ ! -e "$conf_path" ]; then
+	echo "No config found at: $conf_path"
+	exit 1
+fi
+
+. $conf_path
+
+case $1 in
+	latest)
+		url="${jenkins_uri}/job/${jenkins_job}/lastCompletedBuild/api/json?tree=id"
+		id=$(curl --silent --user "${user}:${api_key}" "$url" | jq .id)
+		echo $id | tr -d '"'
+		;;
+	*)
+		echo Usage: $0 latest
+		;;
+esac

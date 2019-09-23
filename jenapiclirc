@@ -1,0 +1,6 @@
+user=$USER
+api_key=123
+jenkins_uri=http://localhost:8080
+jenkins_job=My%20First%20Job
+
+
