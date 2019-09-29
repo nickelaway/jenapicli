@@ -21,6 +21,11 @@ case $1 in
 	        text=$(curl --silent --user "${user}:${api_key}" "$url")
 		echo $text | jq .
 		;;
+	console)
+		id=$2
+		url="${jenkins_uri}/job/${jenkins_job}/${id}/consoleText"
+		curl --silent --user "${user}:${api_key}" "$url"
+		;;
 	*)
 		echo Usage: 
 		echo -e "\t$0 latest"
