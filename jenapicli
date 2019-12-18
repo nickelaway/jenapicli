@@ -9,6 +9,27 @@ fi
 
 . $conf_path
 
+function usage() {
+	echo Usage [-j job_name]:
+	echo -e "\t$0 latest"
+	echo -e "\t$0 detail [run_id]"
+	echo -e "\t$0 console [run_id]"
+}
+
+while getopts "j:" opt; do
+  case ${opt} in
+    j)
+        jenkins_job=$OPTARG
+        ;;
+    \? )
+      usage
+      exit -1
+      ;;
+  esac
+done
+shift $((OPTIND -1))
+
+
 case $1 in
 	latest)
 		url="${jenkins_uri}/job/${jenkins_job}/lastCompletedBuild/api/json?tree=id"
@@ -27,9 +48,7 @@ case $1 in
 		curl --silent --user "${user}:${api_key}" "$url"
 		;;
 	*)
-		echo Usage: 
-		echo -e "\t$0 latest"
-		echo -e "\t$0 detail [run_id]"
+		usage
 		;;
 esac
 
