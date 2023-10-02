@@ -47,6 +47,18 @@ case $1 in
 		url="${jenkins_uri}/job/${jenkins_job}/${id}/consoleText"
 		curl --silent --user "${user}:${api_key}" "$url"
 		;;
+	status)
+		id=$2
+		url="${jenkins_uri}/job/${jenkins_job}/${id}/wfapi/describe"
+	        text=$(curl --silent --user "${user}:${api_key}" "$url")
+		echo $text | jq -r .status
+		;;
+	test-failures)
+		id=$2
+		url="${jenkins_uri}/job/${jenkins_job}/${id}/testReport/api/json"
+		text=$(curl --silent --user "${user}:${api_key}" "$url")
+		echo $text | jq -r '.suites[].cases[] | select(.status != "PASSED") | select(.status != "SKIPPED" ) | .className + "." + .name'
+		;;
 	*)
 		usage
 		;;
