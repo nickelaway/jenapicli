@@ -14,6 +14,7 @@ function usage() {
 	echo -e "\t$0 latest"
 	echo -e "\t$0 detail [run_id]"
 	echo -e "\t$0 console [run_id]"
+	echo -e "\t$0 status [run_id]"
 }
 
 while getopts "j:" opt; do
